@@ -1,7 +1,7 @@
 from collections import deque
 
 
-def keys_and_rooms_841(rooms):
+def keys_and_rooms_841_bfs(rooms):
     """There are n rooms labeled from 0 to n - 1 and all the rooms are locked except for room 0. 
     Your goal is to visit all the rooms. However, you cannot enter a locked room without having its key.
     
@@ -47,4 +47,17 @@ def keys_and_rooms_841(rooms):
                 q.append(i)
                 visited.add(i)
     return len(visited) == len(rooms)
+
+def keys_and_rooms_841_dfs(rooms):
+    visited = {}
+    def dfs(source, visited):
+        if source in visited: return
+        visited.add(source)
+        for i in rooms[source]:
+            dfs(i, visited)
+
+    dfs(source=0, visited=visited)
+    return len(rooms) == len(visited)
+
+
 
