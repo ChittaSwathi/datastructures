@@ -43,3 +43,28 @@ def number_of_provinces_547_dfs(isConnected):
             provinces += 1
 
     return provinces
+
+
+def number_of_provinces_547_bfs(isConnected):
+
+    n = len(isConnected)
+    visited = set()
+    provinces = 0
+
+    def bfs(i):
+        visited.add(i)
+        q = deque()
+        q.append(i)
+        while q:
+            j = q.popleft()
+            for i in range(n):
+                if i not in visited and isConnected[i][j]:
+                    q.append(i)
+                    visited.add(i)
+
+    for i in range(n):
+        if i not in visited:  # i rows
+            provinces += 1
+            bfs(i)
+
+    return provinces
