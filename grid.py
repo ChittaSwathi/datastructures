@@ -98,6 +98,7 @@ def rotting_oranges_504_bfs(grid):
     1 <= m, n <= 10
     grid[i][j] is 0, 1, or 2.
     """
+
     minutes = 0
     fresh = 0
     q = deque()
