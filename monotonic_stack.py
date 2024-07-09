@@ -1,4 +1,5 @@
 def daily_temperatures_739(temperatures):
+    #monotonic increasing
     """Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
 
     Example 1:
@@ -33,3 +34,17 @@ def daily_temperatures_739(temperatures):
         stack.append(i)  # storing indexes
 
     return res
+
+
+    #for monotonic decreasing stack
+    a = [100, 80, 60, 70, 60, 75, 85]
+    s = []
+    res = [1] * len(a)
+    for i, val in enumerate(a):
+
+        while s and a[s[-1]] < val:
+            index = s.pop()
+            res[i] += res[index]
+        s.append(i)
+    return res
+    #res = [1, 1, 1, 2, 1, 4, 6]
