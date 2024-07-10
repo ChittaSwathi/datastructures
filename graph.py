@@ -1,4 +1,5 @@
 from collections import deque
+import math
 
 def number_of_provinces_547_dfs(isConnected):
     """There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c.
@@ -134,3 +135,80 @@ def reorder_routes_to_make_all_paths_lead_to_the_city_zero_1466(n, connections):
     visited.add(0)
     dfs(0)
     return count
+
+
+
+def evaluate_division_399(equations, values, queries):
+    """
+    You are given an array of variable pairs equations and an array of real numbers values, where equations[i] = [Ai, Bi] and values[i] represent the equation Ai / Bi = values[i]. Each Ai or Bi is a string that represents a single variable.
+
+    You are also given some queries, where queries[j] = [Cj, Dj] represents the jth query where you must find the answer for Cj / Dj = ?.
+
+    Return the answers to all queries. If a single answer cannot be determined, return -1.0.
+
+    Note: The input is always valid. You may assume that evaluating the queries will not result in division by zero and that there is no contradiction.
+
+    Note: The variables that do not occur in the list of equations are undefined, so the answer cannot be determined for them.
+
+    Example 1:
+    ------------
+    Input: equations = [["a","b"],["b","c"]], values = [2.0,3.0], queries = [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]
+    Output: [6.00000,0.50000,-1.00000,1.00000,-1.00000]
+    Explanation:
+    Given: a / b = 2.0, b / c = 3.0
+    queries are: a / c = ?, b / a = ?, a / e = ?, a / a = ?, x / x = ?
+    return: [6.0, 0.5, -1.0, 1.0, -1.0 ]
+    note: x is undefined => -1.0
+
+    Example 2:
+    -------------
+    Input: equations = [["a","b"],["b","c"],["bc","cd"]], values = [1.5,2.5,5.0], queries = [["a","c"],["c","b"],["bc","cd"],["cd","bc"]]
+    Output: [3.75000,0.40000,5.00000,0.20000]
+
+    Example 3:
+    --------------
+    Input: equations = [["a","b"]], values = [0.5], queries = [["a","b"],["b","a"],["a","c"],["x","y"]]
+    Output: [0.50000,2.00000,-1.00000,-1.00000]
+
+    Constraints:
+    -----------------
+    1 <= equations.length <= 20
+    equations[i].length == 2
+    1 <= Ai.length, Bi.length <= 5
+    values.length == equations.length
+    0.0 < values[i] <= 20.0
+    1 <= queries.length <= 20
+    queries[i].length == 2
+    1 <= Cj.length, Dj.length <= 5
+    Ai, Bi, Cj, Dj consist of lower case English letters and digits.
+    """
+
+    def dfs(edges, source, target, visited):
+        if (source not in edges) or (source in visited): return math.inf
+        visited.add(source)
+        if source == target: return 1  # edge case
+
+        for node in edges[source]:
+            print('node', node)
+            d = dfs(edges, node[0], target, visited)
+            if d != math.inf: return d * node[1]  # multiply with old distance to get new distance
+        return math.inf
+
+    edges = {}
+    res = []
+
+    for index, eqn in enumerate(equations):
+        if eqn[0] not in edges: edges[eqn[0]] = []
+        if eqn[1] not in edges: edges[eqn[1]] = []
+
+        edges[eqn[0]].append([eqn[1], values[index]]) #add one -way : ex: a->b
+        edges[eqn[1]].append([eqn[0], 1 / values[index]]) #add reverse: ex: b->a and value wll be 1/value
+
+    for q in queries:
+        d = dfs(edges, q[0], q[1], set())
+        if d == math.inf:
+            res.append(-1)
+        else:
+            res.append(d)
+
+    return res
