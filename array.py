@@ -196,3 +196,36 @@ def best_time_to_buy_and_sell_stock_121(prices):
         min_price = min(min_price, price)
 
     return max_profit
+
+
+def contains_duplicate_217(nums):
+    """
+    Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+    Example 1:
+    -------------
+    Input: nums = [1,2,3,1]
+    Output: true
+
+    Example 2:
+    --------------
+    Input: nums = [1,2,3,4]
+    Output: false
+
+    Example 3:
+    -------------
+    Input: nums = [1,1,1,3,3,4,3,2,4,2]
+    Output: true
+
+    Constraints:
+    --------------
+    1 <= nums.length <= 105
+    -109 <= nums[i] <= 109
+    """
+    memo = set()
+    for i in nums:
+        if i in memo:
+            return True
+        else:
+            memo.add(i)
+    return False
