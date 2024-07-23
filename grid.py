@@ -254,3 +254,69 @@ def number_of_islands_200(grid):
                 islands += 1
                 dfs(row, col)
     return islands
+
+def shortest_bridge_934(grid):
+    """You are given an n x n binary matrix grid where 1 represents land and 0 represents water.
+
+    An island is a 4-directionally connected group of 1's not connected to any other 1's. There are exactly two islands in grid.
+
+    You may change 0's to 1's to connect the two islands to form one island.
+
+    Return the smallest number of 0's you must flip to connect the two islands.
+
+    Example 1:
+    -----------
+    Input: grid = [[0,1],[1,0]]
+    Output: 1
+
+    Example 2:
+    -----------
+    Input: grid = [[0,1,0],[0,0,0],[0,0,1]]
+    Output: 2
+
+    Example 3:
+    ----------
+    Input: grid = [[1,1,1,1,1],[1,0,0,0,1],[1,0,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]
+    Output: 1
+
+    Constraints:
+    -------------
+    n == grid.length == grid[i].length
+    2 <= n <= 100
+    grid[i][j] is either 0 or 1.
+    There are exactly two islands in grid."""
+    q = deque()
+    rows = len(grid)
+    cols = len(grid[0])
+    step = 0
+    count = 0
+
+    def dfs(row, col):
+        nonlocal grid, rows, cols, q
+        if not (row < 0 or row >= rows or col < 0 or col >= cols or grid[row][col] != 1):
+            q.append((row, col))
+            grid[row][col] = '#'
+            for dr, dc in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
+                dfs(dr + row, dc + col)
+
+    for row in range(rows):
+        for col in range(cols):
+            if grid[row][col] == 1 and not count:  # execute only once
+                dfs(row, col)
+                count += 1
+
+    while q:
+        for i in range(len(q)):
+            r, c = q.popleft()
+            for dr, dc in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
+                nr, nc = r + dr, c + dc
+                if not (nr < 0 or nr >= rows or nc >= cols or nc < 0 or grid[nr][nc] == '#'):
+                    if grid[nr][nc] == 0:
+                        q.append((nr, nc))
+                        grid[nr][nc] = '#'
+                    else:
+                        return step
+        step += 1
+
+    return step
+
