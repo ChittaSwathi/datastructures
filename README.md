@@ -1,4 +1,6 @@
-# leetcode
-Learning DS and practicing leetcode
+Practising Datastructures.
 
-test
+Includes:
+----------
+1. Leetcode 75
+2. Neecode Blind 75
