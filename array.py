@@ -152,6 +152,7 @@ def two_sum_1(nums, target):
     Only one valid answer exists.
     """
 
+    #brute force
     memo = {}
     for key, val in enumerate(nums):
         res = target - val
@@ -159,6 +160,17 @@ def two_sum_1(nums, target):
             return [memo[res], key]
         memo[val] = key
     return []
+
+    #optimized - using lookup dict
+    lookup = {}
+    # create lookup dict
+    for i in range(len(nums)):
+        lookup[target - nums[i]] = i
+    # use lookup dict
+    for j in range(len(nums)):
+        if nums[j] in lookup and lookup[nums[j]] != j:
+            return [lookup[nums[j]], j]
+    return []  # not found
 
 
 def best_time_to_buy_and_sell_stock_121(prices):
