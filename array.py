@@ -161,7 +161,7 @@ def two_sum_1(nums, target):
         memo[val] = key
     return []
 
-    #optimized - using lookup dict
+    #optimized - using lookup dict - time- O(n)
     lookup = {}
     # create lookup dict
     for i in range(len(nums)):
