@@ -1,4 +1,4 @@
-Practising Datastructures.
+Practicing Datastructures.
 
 Includes:
 ----------
